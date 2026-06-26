@@ -31,7 +31,7 @@ export interface SubmitSurveyPayload {
   providedIn: 'root'
 })
 export class SurveyService {
-  private apiUrl = 'http://localhost:5023/api/Survey';
+  private apiUrl = 'http://192.168.29.66:5023/api/Survey';
 
   constructor(private http: HttpClient) { }
 

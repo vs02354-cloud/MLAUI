@@ -26,7 +26,7 @@ export interface Village {
   providedIn: 'root'
 })
 export class MasterDataService {
-  private apiUrl = 'http://localhost:5023/api/MsrMasterData';
+  private apiUrl = 'http://192.168.29.66:5023/api/MsrMasterData';
 
   constructor(private http: HttpClient) { }
 
