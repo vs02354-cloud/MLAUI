@@ -1,0 +1,78 @@
+<div class="report-container">
+  <div class="actions-header">
+    <button mat-raised-button color="primary" (click)="exportPdf()">
+      <mat-icon>picture_as_pdf</mat-icon> PDF डाउनलोड करें
+    </button>
+  </div>
+
+  <div class="report-card-wrapper" id="report-content">
+    <div class="report-header">
+      <img src="assets/emblem.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+      <h1>विधायक रिपोर्ट कार्ड (MLA Report Card)</h1>
+      <h2>{{ report.mlaName }}</h2>
+      <h3>{{ report.assembly }}</h3>
+    </div>
+
+    <div class="report-body">
+      <div class="metrics-row">
+        <div class="metric-box">
+          <span class="label">कुल सर्वे</span>
+          <span class="value">{{ report.totalSurveys | number }}</span>
+        </div>
+        <div class="metric-box">
+          <span class="label">कवर किए गए गाँव</span>
+          <span class="value">{{ report.totalVillages | number }}</span>
+        </div>
+        <div class="metric-box">
+          <span class="label">औसत विकास स्कोर</span>
+          <span class="value score">{{ report.devScore }}/5</span>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-item">
+          <div class="label-row">
+            <span>संतुष्टि (Satisfaction)</span>
+            <span>{{ report.satisfaction }}%</span>
+          </div>
+          <mat-progress-bar mode="determinate" [value]="report.satisfaction" color="primary"></mat-progress-bar>
+        </div>
+        
+        <div class="progress-item">
+          <div class="label-row">
+            <span>वोट देने की संभावना (Voting Probability)</span>
+            <span>{{ report.votingProb }}%</span>
+          </div>
+          <mat-progress-bar mode="determinate" [value]="report.votingProb" class="green-progress"></mat-progress-bar>
+        </div>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-card">
+          <h4>प्रमुख शिकायतें (Top Complaints)</h4>
+          <ul>
+            <li *ngFor="let complaint of report.complaints">{{ complaint }}</li>
+          </ul>
+        </div>
+        
+        <div class="detail-card">
+          <h4>प्रमुख अपेक्षाएँ (Top Expectations)</h4>
+          <ul>
+            <li *ngFor="let expectation of report.expectations">{{ expectation }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-footer">
+      <div class="overall-rating">
+        <span>समग्र ग्रेड (Overall Grade)</span>
+        <div class="grade {{ report.overallRating.toLowerCase() }}">{{ report.overallRating }}</div>
+      </div>
+      <div class="overall-performance">
+        <span>समग्र प्रदर्शन (Performance)</span>
+        <div class="percent">{{ report.overallPerformance }}%</div>
+      </div>
+    </div>
+  </div>
+</div>

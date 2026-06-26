@@ -1,0 +1,207 @@
+<div class="survey-container">
+  <mat-card class="glass-card main-card">
+    <h2 class="premium-title">विधायक जनसंतुष्टि सर्वे</h2>
+    
+    <mat-stepper [linear]="true" labelPosition="bottom" #stepper class="custom-stepper">
+      <!-- Step 1: Personal Info -->
+      <mat-step [stepControl]="personalInfoForm">
+        <form [formGroup]="personalInfoForm">
+          <ng-template matStepLabel>व्यक्तिगत जानकारी</ng-template>
+          
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>सर्वे दिनांक</mat-label>
+              <input matInput formControlName="surveyDate">
+            </mat-form-field>
+
+            <!-- District -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>जिला*</mat-label>
+              <mat-select formControlName="district">
+                <mat-option *ngIf="isLoadingDistricts">
+                  <mat-spinner diameter="20"></mat-spinner> लोड हो रहा है...
+                </mat-option>
+                <mat-option *ngFor="let d of districts" [value]="d.id">
+                  {{ d.nameHi }} / {{ d.nameEn }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <!-- Local Body -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>विधानसभा*</mat-label>
+              <mat-select formControlName="localBody">
+                <mat-option *ngIf="isLoadingLocalBodies">
+                  <mat-spinner diameter="20"></mat-spinner> लोड हो रहा है...
+                </mat-option>
+                <mat-option *ngIf="localBodies.length === 0 && !isLoadingLocalBodies" disabled>
+                  कोई डेटा नहीं
+                </mat-option>
+                <mat-option *ngFor="let lb of localBodies" [value]="lb.id">
+                  {{ lb.nameHi }} / {{ lb.nameEn }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Village / Ward -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>गाँव / वार्ड*</mat-label>
+              <mat-select formControlName="village">
+                <mat-option *ngIf="isLoadingVillages">
+                  <mat-spinner diameter="20"></mat-spinner> लोड हो रहा है...
+                </mat-option>
+                <mat-option *ngIf="villages.length === 0 && !isLoadingVillages" disabled>
+                  कोई डेटा नहीं
+                </mat-option>
+                <mat-option *ngFor="let v of villages" [value]="v.id">
+                  {{ v.nameHi }} / {{ v.nameEn }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>उत्तरदाता का नाम</mat-label>
+              <input matInput formControlName="respondentName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>आयु</mat-label>
+              <input matInput type="number" formControlName="age">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>लिंग</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option value="पुरुष">पुरुष</mat-option>
+                <mat-option value="महिला">महिला</mat-option>
+                <mat-option value="अन्य">अन्य</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>मोबाइल नंबर</mat-label>
+              <input matInput formControlName="mobile" placeholder="10 अंकों का नंबर" maxlength="10" (input)="onMobileInput($event)">
+            </mat-form-field>
+          </div>
+          
+          <div class="stepper-actions">
+            <button mat-raised-button color="primary" matStepperNext>अगला (Next)</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Step 2: Survey Questions -->
+      <mat-step [stepControl]="surveyForm">
+        <form [formGroup]="surveyForm">
+          <ng-template matStepLabel>सर्वे प्रश्न</ng-template>
+          
+          <div class="survey-section">
+            <div class="question">
+              <p>1. क्या विधायक द्वारा विकास कार्य किए गए हैं?</p>
+              <mat-radio-group formControlName="developmentWorks" class="radio-group">
+                <mat-radio-button value="हाँ">हाँ</mat-radio-button>
+                <mat-radio-button value="आंशिक">आंशिक</mat-radio-button>
+                <mat-radio-button value="नहीं">नहीं</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="question">
+              <p>2. सड़क की स्थिति कैसी है?</p>
+              <mat-radio-group formControlName="road" class="radio-group">
+                <mat-radio-button *ngFor="let r of ratings" [value]="r">{{r}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="question">
+              <p>3. बिजली की स्थिति कैसी है?</p>
+              <mat-radio-group formControlName="electricity" class="radio-group">
+                <mat-radio-button *ngFor="let r of ratings" [value]="r">{{r}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="question">
+              <p>4. पेयजल की स्थिति कैसी है?</p>
+              <mat-radio-group formControlName="water" class="radio-group">
+                <mat-radio-button *ngFor="let r of ratings" [value]="r">{{r}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="question">
+              <p>5. स्वास्थ्य सेवाओं की स्थिति कैसी है?</p>
+              <mat-radio-group formControlName="health" class="radio-group">
+                <mat-radio-button *ngFor="let r of ratings" [value]="r">{{r}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="question">
+              <p>6. शिक्षा की स्थिति कैसी है?</p>
+              <mat-radio-group formControlName="education" class="radio-group">
+                <mat-radio-button *ngFor="let r of ratings" [value]="r">{{r}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="question">
+              <p>7. सरकारी योजनाओं का लाभ मिल रहा है?</p>
+              <mat-radio-group formControlName="govtSchemes" class="radio-group">
+                <mat-radio-button value="हाँ">मिल रहा है</mat-radio-button>
+                <mat-radio-button value="आंशिक">आंशिक</mat-radio-button>
+                <mat-radio-button value="नहीं">नहीं</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div class="stepper-actions">
+            <button mat-button matStepperPrevious>पिछला (Back)</button>
+            <button mat-raised-button color="primary" matStepperNext>अगला (Next)</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Step 3: Feedback -->
+      <mat-step [stepControl]="feedbackForm">
+        <form [formGroup]="feedbackForm">
+          <ng-template matStepLabel>सुझाव और प्रतिक्रिया</ng-template>
+          
+          <div class="survey-section">
+            <div class="question">
+              <p>8. आप विधायक के कार्यों से कितने संतुष्ट हैं?</p>
+              <mat-radio-group formControlName="satisfaction" class="radio-group">
+                <mat-radio-button *ngFor="let s of satisfactionLevels" [value]="s">{{s}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="question">
+              <p>9. यदि आज चुनाव हो तो क्या आप वर्तमान विधायक को वोट देंगे?</p>
+              <mat-radio-group formControlName="willVote" class="radio-group">
+                <mat-radio-button value="हाँ">हाँ</mat-radio-button>
+                <mat-radio-button value="नहीं">नहीं</mat-radio-button>
+                <mat-radio-button value="अभी निर्णय नहीं लिया">अभी निर्णय नहीं लिया</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <mat-form-field appearance="outline" class="full-width text-area">
+              <mat-label>गाँव की सबसे बड़ी समस्या</mat-label>
+              <textarea matInput formControlName="biggestProblem" rows="3"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width text-area">
+              <mat-label>विधायक से अपेक्षा</mat-label>
+              <textarea matInput formControlName="expectation" rows="3"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width text-area">
+              <mat-label>अन्य सुझाव</mat-label>
+              <textarea matInput formControlName="suggestion" rows="3"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="stepper-actions final-actions">
+            <button mat-button matStepperPrevious>पिछला (Back)</button>
+            <button mat-raised-button color="accent" (click)="stepper.reset()">रीसेट (Reset)</button>
+            <button mat-raised-button color="primary" (click)="submitSurvey()">जमा करें (Submit)</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </mat-card>
+</div>

@@ -1,0 +1,59 @@
+<div class="app-container" [attr.data-theme]="isDarkMode ? 'dark' : 'light'">
+  <nav class="top-nav glass-card" *ngIf="showNav">
+    <div class="brand">
+      विधायक जनसंतुष्टि पोर्टल
+    </div>
+    
+    <!-- Desktop Navigation -->
+    <div class="nav-links desktop-nav" *ngIf="!isMobile">
+      <a routerLink="/survey" routerLinkActive="active">सर्वे फॉर्म</a>
+      <ng-container *ngIf="isLoggedIn$ | async">
+        <a routerLink="/dashboard" routerLinkActive="active">डैशबोर्ड</a>
+        <a routerLink="/report-card" routerLinkActive="active">रिपोर्ट कार्ड</a>
+      </ng-container>
+      <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle Theme">
+        <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+      <button mat-button color="primary" routerLink="/login" *ngIf="!(isLoggedIn$ | async)">लॉगिन</button>
+      <button mat-button color="warn" (click)="logout()" *ngIf="isLoggedIn$ | async">लॉगआउट</button>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" *ngIf="isMobile">
+      <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle Theme">
+        <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item routerLink="/survey" routerLinkActive="active">
+          <mat-icon>assignment</mat-icon>
+          <span>सर्वे फॉर्म</span>
+        </a>
+        <ng-container *ngIf="isLoggedIn$ | async">
+          <a mat-menu-item routerLink="/dashboard" routerLinkActive="active">
+            <mat-icon>dashboard</mat-icon>
+            <span>डैशबोर्ड</span>
+          </a>
+          <a mat-menu-item routerLink="/report-card" routerLinkActive="active">
+            <mat-icon>bar_chart</mat-icon>
+            <span>रिपोर्ट कार्ड</span>
+          </a>
+          <button mat-menu-item (click)="logout()" style="color: #f44336;">
+            <mat-icon color="warn">logout</mat-icon>
+            <span>लॉगआउट</span>
+          </button>
+        </ng-container>
+        <button mat-menu-item routerLink="/login" style="color: #1976d2;" *ngIf="!(isLoggedIn$ | async)">
+          <mat-icon color="primary">login</mat-icon>
+          <span>लॉगिन</span>
+        </button>
+      </mat-menu>
+    </div>
+  </nav>
+  
+  <main class="content-area">
+    <router-outlet></router-outlet>
+  </main>
+</div>

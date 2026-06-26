@@ -1,0 +1,47 @@
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+
+:root {
+  --primary-color: #1976d2;
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --text-color: #333;
+}
+
+[data-theme="dark"] {
+  --primary-color: #90caf9;
+  --bg-gradient: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+  --glass-bg: rgba(30, 30, 30, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-color: #fff;
+}
+
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif; 
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  padding: 24px;
+}
+
+.premium-title {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(45deg, var(--primary-color), #ff4081);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 24px;
+  text-align: center;
+}

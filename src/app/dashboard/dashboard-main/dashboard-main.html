@@ -1,0 +1,74 @@
+<div class="dashboard-container">
+  <div class="header">
+    <h2 class="premium-title">डैशबोर्ड - मुख्य आँकड़े</h2>
+  </div>
+
+  <div class="stats-grid">
+    <mat-card class="glass-card stat-card">
+      <mat-icon color="primary">assignment</mat-icon>
+      <div class="stat-info">
+        <h3>{{ totalSurveys | number }}</h3>
+        <p>कुल सर्वे</p>
+      </div>
+    </mat-card>
+    
+    <mat-card class="glass-card stat-card">
+      <mat-icon color="accent">location_city</mat-icon>
+      <div class="stat-info">
+        <h3>{{ totalVillages | number }}</h3>
+        <p>कुल गाँव</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="glass-card stat-card">
+      <mat-icon color="warn">thumb_up</mat-icon>
+      <div class="stat-info">
+        <h3>{{ satisfactionPct }}%</h3>
+        <p>संतुष्टि प्रतिशत</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="glass-card stat-card">
+      <mat-icon style="color: #4caf50;">how_to_vote</mat-icon>
+      <div class="stat-info">
+        <h3>{{ votingProb }}%</h3>
+        <p>वोट प्रतिशत (संभावना)</p>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="charts-grid">
+    <mat-card class="glass-card chart-card">
+      <h3>संतुष्टि विश्लेषण (Satisfaction Analysis)</h3>
+      <div class="chart-wrapper">
+        <canvas baseChart
+          [data]="pieChartData"
+          [options]="pieChartOptions"
+          [type]="pieChartType">
+        </canvas>
+      </div>
+    </mat-card>
+
+    <mat-card class="glass-card chart-card">
+      <h3>विकास कार्यों का स्कोर (Development Score)</h3>
+      <div class="chart-wrapper">
+        <canvas baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="barChartType">
+        </canvas>
+      </div>
+    </mat-card>
+
+    <mat-card class="glass-card chart-card full-width">
+      <h3>वोटिंग ट्रेंड (Voting Trend)</h3>
+      <div class="chart-wrapper">
+        <canvas baseChart
+          [data]="lineChartData"
+          [options]="lineChartOptions"
+          [type]="lineChartType">
+        </canvas>
+      </div>
+    </mat-card>
+  </div>
+</div>

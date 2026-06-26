@@ -1,0 +1,199 @@
+.report-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.actions-header {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.report-card-wrapper {
+  background: white;
+  width: 100%;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.report-header {
+  background: linear-gradient(135deg, #1976d2, #283593);
+  color: white;
+  padding: 32px 24px;
+  text-align: center;
+  position: relative;
+
+  .logo {
+    position: absolute;
+    top: 20px;
+    left: 24px;
+    height: 60px;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.9;
+  }
+  
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+  }
+  
+  h3 {
+    font-size: 20px;
+    margin: 0;
+    opacity: 0.8;
+  }
+}
+
+.report-body {
+  padding: 32px;
+}
+
+.metrics-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+
+  .metric-box {
+    text-align: center;
+    flex: 1;
+    border-right: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    .label {
+      display: block;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      
+      &.score {
+        color: #1976d2;
+      }
+    }
+  }
+}
+
+.progress-section {
+  margin-bottom: 32px;
+
+  .progress-item {
+    margin-bottom: 24px;
+
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #444;
+    }
+    
+    mat-progress-bar {
+      height: 12px;
+      border-radius: 6px;
+    }
+    
+    ::ng-deep .green-progress .mdc-linear-progress__bar-inner {
+      border-color: #4caf50 !important;
+    }
+  }
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+
+  .detail-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+
+    h4 {
+      margin-top: 0;
+      color: #d32f2f;
+      border-bottom: 2px solid #ffcdd2;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    
+    &:last-child h4 {
+      color: #388e3c;
+      border-bottom: 2px solid #c8e6c9;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 0;
+      
+      li {
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+.report-footer {
+  background: #f5f5f5;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #e0e0e0;
+
+  .overall-rating, .overall-performance {
+    text-align: center;
+    
+    span {
+      display: block;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+  }
+  
+  .grade {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+    
+    &.a, &.a\+ { color: #4caf50; }
+    &.b, &.b\+ { color: #8bc34a; }
+    &.c { color: #ff9800; }
+    &.d, &.f { color: #f44336; }
+  }
+  
+  .percent {
+    font-size: 40px;
+    font-weight: 700;
+    color: #1976d2;
+    line-height: 1.2;
+  }
+}
