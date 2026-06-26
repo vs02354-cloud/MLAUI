@@ -31,7 +31,7 @@ export interface SubmitSurveyPayload {
   providedIn: 'root'
 })
 export class SurveyService {
-  private apiUrl = 'http://192.168.29.66:5023/api/Survey';
+  private apiUrl = 'https://bibliographic-brochures-lightbox-olympus.trycloudflare.com/api/Survey';
 
   constructor(private http: HttpClient) { }
 
