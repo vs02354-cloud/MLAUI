@@ -18,10 +18,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          rm -f package-lock.json
+          npm install
 
       - name: Build Angular App
         run: npm run build
