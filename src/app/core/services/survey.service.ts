@@ -31,7 +31,8 @@ export interface SubmitSurveyPayload {
   providedIn: 'root'
 })
 export class SurveyService {
-  private apiUrl = 'https://bibliographic-brochures-lightbox-olympus.trycloudflare.com/api/Survey';
+  // Using production Render API
+  private apiUrl = 'https://mlaapi.onrender.com/api/Survey';
 
   constructor(private http: HttpClient) { }
 

@@ -26,7 +26,8 @@ export interface Village {
   providedIn: 'root'
 })
 export class MasterDataService {
-  private apiUrl = 'https://bibliographic-brochures-lightbox-olympus.trycloudflare.com/api/MsrMasterData';
+  // Using production Render API
+  private apiUrl = 'https://mlaapi.onrender.com/api/MsrMasterData';
 
   constructor(private http: HttpClient) { }
 
