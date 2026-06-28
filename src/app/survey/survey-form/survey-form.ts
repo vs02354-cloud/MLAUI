@@ -12,6 +12,24 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MasterDataService, District, LocalBody, Village } from '../../core/services/master-data.service';
 import { SurveyService, SubmitSurveyPayload } from '../../core/services/survey.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-survey-info-dialog',
+  standalone: true,
+  imports: [MatButtonModule, MatDialogModule],
+  template: `
+    <h2 mat-dialog-title class="premium-title" style="color: #1976d2; margin-bottom: 10px; font-weight: 600;">महत्वपूर्ण सूचना</h2>
+    <mat-dialog-content style="font-size: 1.1rem; line-height: 1.6; text-align: justify; margin-bottom: 10px;">
+      उत्तरदाता की जानकारी पूर्णतः गोपनीय रखी जाएगी तथा किसी भी प्रकार से सार्वजनिक नहीं की जाएगी। यह सर्वे केवल पिछले 5 वर्षों में किए गए विकास कार्यों एवं उनके प्रभाव का निष्पक्ष आकलन और प्रगति प्रदर्शित करने के उद्देश्य से किया जा रहा है।
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button color="primary" mat-dialog-close>मैं सहमत हूँ (I Agree)</button>
+    </mat-dialog-actions>
+  `
+})
+export class SurveyInfoDialog {}
+
 @Component({
   selector: 'app-survey-form',
   standalone: true,
@@ -26,7 +44,8 @@ import { SurveyService, SubmitSurveyPayload } from '../../core/services/survey.s
     MatButtonModule,
     MatIconModule,
     MatStepperModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
   templateUrl: './survey-form.html',
   styleUrls: ['./survey-form.scss']
@@ -50,7 +69,8 @@ export class SurveyForm implements OnInit {
   constructor(
     private fb: FormBuilder, 
     private masterDataService: MasterDataService,
-    private surveyService: SurveyService
+    private surveyService: SurveyService,
+    private dialog: MatDialog
   ) {
     this.personalInfoForm = this.fb.group({
       surveyDate: [{ value: new Date().toLocaleDateString('hi-IN'), disabled: true }],
@@ -83,6 +103,12 @@ export class SurveyForm implements OnInit {
   }
 
   ngOnInit() {
+    this.dialog.open(SurveyInfoDialog, {
+      width: '500px',
+      disableClose: true,
+      autoFocus: false
+    });
+
     this.loadDistricts();
 
     this.personalInfoForm.get('district')?.valueChanges.subscribe(districtId => {
