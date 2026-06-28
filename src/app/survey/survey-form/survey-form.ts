@@ -59,6 +59,10 @@ export class SurveyForm implements OnInit {
   localBodies: LocalBody[] = [];
   villages: Village[] = [];
 
+  filteredDistricts: District[] = [];
+  filteredLocalBodies: LocalBody[] = [];
+  filteredVillages: Village[] = [];
+
   isLoadingDistricts = false;
   isLoadingLocalBodies = false;
   isLoadingVillages = false;
@@ -140,6 +144,7 @@ export class SurveyForm implements OnInit {
     this.masterDataService.getDistricts().subscribe({
       next: (data) => {
         this.districts = data;
+        this.filteredDistricts = data;
         this.isLoadingDistricts = false;
       },
       error: () => this.isLoadingDistricts = false
@@ -151,6 +156,7 @@ export class SurveyForm implements OnInit {
     this.masterDataService.getLocalBodies(districtId).subscribe({
       next: (data) => {
         this.localBodies = data;
+        this.filteredLocalBodies = data;
         this.personalInfoForm.get('localBody')?.enable();
         this.isLoadingLocalBodies = false;
       },
@@ -163,11 +169,32 @@ export class SurveyForm implements OnInit {
     this.masterDataService.getVillages(localBodyId).subscribe({
       next: (data) => {
         this.villages = data;
+        this.filteredVillages = data;
         this.personalInfoForm.get('village')?.enable();
         this.isLoadingVillages = false;
       },
       error: () => this.isLoadingVillages = false
     });
+  }
+  filterDistricts(event: Event) {
+    const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredDistricts = this.districts.filter(d => 
+      d.nameHi.toLowerCase().includes(searchTerm) || d.nameEn.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  filterLocalBodies(event: Event) {
+    const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredLocalBodies = this.localBodies.filter(l => 
+      l.nameHi.toLowerCase().includes(searchTerm) || l.nameEn.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  filterVillages(event: Event) {
+    const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredVillages = this.villages.filter(v => 
+      v.nameHi.toLowerCase().includes(searchTerm) || v.nameEn.toLowerCase().includes(searchTerm)
+    );
   }
 
   submitSurvey() {

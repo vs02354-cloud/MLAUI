@@ -18,10 +18,14 @@
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>जिला*</mat-label>
               <mat-select formControlName="district">
+                <div class="select-search-container">
+                  <mat-icon>search</mat-icon>
+                  <input class="select-search-input" placeholder="खोजें (Search)..." (input)="filterDistricts($event)" (keydown)="$event.stopPropagation()">
+                </div>
                 <mat-option *ngIf="isLoadingDistricts">
                   <mat-spinner diameter="20"></mat-spinner> लोड हो रहा है...
                 </mat-option>
-                <mat-option *ngFor="let d of districts" [value]="d.id">
+                <mat-option *ngFor="let d of filteredDistricts" [value]="d.id">
                   {{ d.nameHi }} / {{ d.nameEn }}
                 </mat-option>
               </mat-select>
@@ -31,13 +35,17 @@
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>विधानसभा*</mat-label>
               <mat-select formControlName="localBody">
+                <div class="select-search-container">
+                  <mat-icon>search</mat-icon>
+                  <input class="select-search-input" placeholder="खोजें (Search)..." (input)="filterLocalBodies($event)" (keydown)="$event.stopPropagation()">
+                </div>
                 <mat-option *ngIf="isLoadingLocalBodies">
                   <mat-spinner diameter="20"></mat-spinner> लोड हो रहा है...
                 </mat-option>
-                <mat-option *ngIf="localBodies.length === 0 && !isLoadingLocalBodies" disabled>
+                <mat-option *ngIf="filteredLocalBodies.length === 0 && !isLoadingLocalBodies" disabled>
                   कोई डेटा नहीं
                 </mat-option>
-                <mat-option *ngFor="let lb of localBodies" [value]="lb.id">
+                <mat-option *ngFor="let lb of filteredLocalBodies" [value]="lb.id">
                   {{ lb.nameHi }} / {{ lb.nameEn }}
                 </mat-option>
               </mat-select>
@@ -47,13 +55,17 @@
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>गाँव / वार्ड*</mat-label>
               <mat-select formControlName="village">
+                <div class="select-search-container">
+                  <mat-icon>search</mat-icon>
+                  <input class="select-search-input" placeholder="खोजें (Search)..." (input)="filterVillages($event)" (keydown)="$event.stopPropagation()">
+                </div>
                 <mat-option *ngIf="isLoadingVillages">
                   <mat-spinner diameter="20"></mat-spinner> लोड हो रहा है...
                 </mat-option>
-                <mat-option *ngIf="villages.length === 0 && !isLoadingVillages" disabled>
+                <mat-option *ngIf="filteredVillages.length === 0 && !isLoadingVillages" disabled>
                   कोई डेटा नहीं
                 </mat-option>
-                <mat-option *ngFor="let v of villages" [value]="v.id">
+                <mat-option *ngFor="let v of filteredVillages" [value]="v.id">
                   {{ v.nameHi }} / {{ v.nameEn }}
                 </mat-option>
               </mat-select>
