@@ -93,6 +93,9 @@
             <mat-form-field appearance="outline">
               <mat-label>मोबाइल नंबर</mat-label>
               <input matInput formControlName="mobile" placeholder="10 अंकों का नंबर" maxlength="10" (input)="onMobileInput($event)">
+              <mat-error *ngIf="personalInfoForm.get('mobile')?.hasError('required')">मोबाइल नंबर आवश्यक है</mat-error>
+              <mat-error *ngIf="personalInfoForm.get('mobile')?.hasError('pattern')">Please enter a valid mobile number.</mat-error>
+              <mat-error *ngIf="personalInfoForm.get('mobile')?.hasError('notUnique')">यह मोबाइल नंबर पहले से ही दर्ज है।</mat-error>
             </mat-form-field>
           </div>
           

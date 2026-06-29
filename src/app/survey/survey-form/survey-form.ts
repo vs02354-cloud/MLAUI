@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { Observable, of, timer } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -84,7 +86,10 @@ export class SurveyForm implements OnInit {
       respondentName: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(18)]],
       gender: ['', Validators.required],
-      mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+      mobile: ['', 
+        [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')],
+        [this.uniqueMobileValidator()]
+      ]
     });
 
     this.surveyForm = this.fb.group({
@@ -104,6 +109,19 @@ export class SurveyForm implements OnInit {
       expectation: [''],
       suggestion: ['']
     });
+  }
+
+  uniqueMobileValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!control.value || control.value.length !== 10) {
+        return of(null);
+      }
+      return timer(500).pipe(
+        switchMap(() => this.surveyService.checkMobileUniqueness(control.value)),
+        map(res => (res.isRegistered ? { notUnique: true } : null)),
+        catchError(() => of(null))
+      );
+    };
   }
 
   ngOnInit() {

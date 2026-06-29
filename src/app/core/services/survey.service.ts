@@ -39,4 +39,8 @@ export class SurveyService {
   submitSurvey(data: SubmitSurveyPayload): Observable<any> {
     return this.http.post(this.apiUrl, data);
   }
+
+  checkMobileUniqueness(mobileNumber: string): Observable<{ isRegistered: boolean }> {
+    return this.http.get<{ isRegistered: boolean }>(`${this.apiUrl}/check-mobile/${mobileNumber}`);
+  }
 }
