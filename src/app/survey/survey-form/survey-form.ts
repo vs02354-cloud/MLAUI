@@ -262,11 +262,15 @@ export class SurveyForm implements OnInit {
   }
 
   onMobileInput(event: any) {
-    let value = event.target.value.replace(/[^0-9]/g, '');
+    let initialValue = event.target.value;
+    let value = initialValue.replace(/[^0-9]/g, '');
     if (value.length > 10) {
       value = value.substring(0, 10);
     }
-    this.personalInfoForm.get('mobile')?.setValue(value, { emitEvent: false });
-    event.target.value = value;
+    
+    if (initialValue !== value) {
+      this.personalInfoForm.get('mobile')?.setValue(value);
+      event.target.value = value;
+    }
   }
 }
